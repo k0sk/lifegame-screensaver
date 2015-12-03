@@ -5,7 +5,9 @@
         Background="Black"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        WindowStyle="None">
+        WindowStyle="None"
+        KeyDown="Window_KeyDown"
+        MouseDown="Window_MouseDown">
     <Grid x:Name="MainGrid">
         
     </Grid>
