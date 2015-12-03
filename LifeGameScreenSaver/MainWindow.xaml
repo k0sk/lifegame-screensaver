@@ -1,6 +1,7 @@
 ﻿<Window x:Class="LifeGameScreenSaver.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lifegame="clr-namespace:LifeGameScreenSaver"
         Title="LifeGameScreenSaver"
         Background="Black"
         ResizeMode="NoResize"
@@ -8,7 +9,5 @@
         WindowStyle="None"
         KeyDown="Window_KeyDown"
         MouseDown="Window_MouseDown">
-    <Grid x:Name="MainGrid">
-        
-    </Grid>
+    <lifegame:BoardView x:Name="LifeGameView"></lifegame:BoardView>
 </Window>

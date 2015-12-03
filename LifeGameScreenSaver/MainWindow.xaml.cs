@@ -20,9 +20,19 @@ namespace LifeGameScreenSaver
     /// </summary>
     public partial class MainWindow : Window
     {
+        private BoardModel model = new BoardModel();
+
         public MainWindow()
         {
             InitializeComponent();
+            this.model.Update += new BoardModel.OnUpdate(model_Update);
+            this.model.Randomize();
+            this.model.Start();
+        }
+
+        void model_Update(object sender)
+        {
+            this.LifeGameView.Update(this.model.Cells);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
