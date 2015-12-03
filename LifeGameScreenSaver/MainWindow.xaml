@@ -1,8 +1,12 @@
 ﻿<Window x:Class="LifeGameScreenSaver.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
+        Title="LifeGameScreenSaver"
+        Background="Black"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        WindowStyle="None">
+    <Grid x:Name="MainGrid">
         
     </Grid>
 </Window>
