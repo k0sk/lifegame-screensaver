@@ -6,22 +6,15 @@ namespace LifeGameScreenSaver
 	public class BoardModel
 	{
         public delegate void OnUpdate(object sender);
-
         public event OnUpdate Update;
-
+        private DispatcherTimer pulse;
         private byte[] current;
-        
         private byte[] next;
 
         public byte[] Cells
         {
-            get
-            {
-                return this.current;
-            }
+            get { return this.current; }
         }
-
-		private DispatcherTimer pulse;
 
 		public BoardModel()
 		{
@@ -37,11 +30,7 @@ namespace LifeGameScreenSaver
 			this.Next();
 		}
 
-		public Boolean IsActive
-		{
-			get;
-			private set;
-		}
+		public Boolean IsActive { get; private set; }
 
 		public void Start()
 		{

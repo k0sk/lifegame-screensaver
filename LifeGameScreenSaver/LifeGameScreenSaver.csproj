@@ -65,7 +65,6 @@
     </Compile>
     <Compile Include="LifeGame\BoardModel.cs" />
     <Compile Include="LifeGame\BoardView.cs" />
-    <Compile Include="LifeGame\ClickEventArgs.cs" />
     <Compile Include="LifeGame\Constants.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

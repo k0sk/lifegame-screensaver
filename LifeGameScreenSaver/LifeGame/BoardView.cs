@@ -9,24 +9,11 @@ namespace LifeGameScreenSaver
 {
     public class BoardView : FrameworkElement
     {
-		public delegate void ClickHandler(object sender, ClickEventArgs e);
-
-		public event ClickHandler Click;
-
 		private const double OUTLINE_WIDTH = 1;
-
 		private DrawingVisual[] visuals;
-
 		private DrawingVisual grid = new DrawingVisual();
-
 		private DrawingVisual cells = new DrawingVisual();
-
-		private bool isMouseDown;
-
-		private Point previous = new Point();
-
 		private byte[] values;
-
 		private Pen outline = new Pen(Brushes.DimGray, OUTLINE_WIDTH);
 
         public BoardView() : base()
@@ -57,10 +44,7 @@ namespace LifeGameScreenSaver
 
 		protected override int VisualChildrenCount
 		{
-			get
-			{
-				return this.visuals.Length;
-			}
+			get { return this.visuals.Length; }
 		}
 
 		protected override Visual GetVisualChild(int index)
@@ -82,48 +66,6 @@ namespace LifeGameScreenSaver
 		{
 			this.drawGrid();
 			this.drawCells();
-		}
-
-		protected override void OnMouseDown(MouseButtonEventArgs e)
-		{
-			base.OnMouseDown(e);
-
-			this.isMouseDown = true;
-			Point pt = e.GetPosition(this);
-			int x = (int)((pt.X) / Constants.CELL_SIZE);
-			int y = (int)((pt.Y) / Constants.CELL_SIZE);
-
-			if (null != this.Click)
-			{
-				this.Click(this, new ClickEventArgs(x, y));
-			}
-		}
-
-		protected override void OnMouseUp(MouseButtonEventArgs e)
-		{
-			base.OnMouseUp(e);
-			this.isMouseDown = false;
-		}
-
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			base.OnMouseMove(e);
-
-			Point pt = e.GetPosition(this);
-			int x = (int)((pt.X) / Constants.CELL_SIZE);
-			int y = (int)((pt.Y) / Constants.CELL_SIZE);
-			if (!this.isMouseDown || (this.previous.X == x && this.previous.Y == y))
-			{
-				return;
-			}
-
-			this.previous.X = x;
-			this.previous.Y = y;
-			
-			if (null != this.Click)
-			{
-				this.Click(this, new ClickEventArgs(x, y));
-			}
 		}
 
 		private void drawGrid()
