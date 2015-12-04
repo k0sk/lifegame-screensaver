@@ -7,7 +7,8 @@
         ShowInTaskbar="False"
         WindowStyle="None"
         KeyDown="Window_KeyDown"
-        MouseDown="Window_MouseDown">
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseRightButtonDown="Window_MouseRightButtonDown">
     <lifegame:BoardView x:Name="LifeGameView"
                         MouseMove="LifeGameView_MouseMove"></lifegame:BoardView>
 </Window>

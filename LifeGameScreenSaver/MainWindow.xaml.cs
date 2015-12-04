@@ -40,9 +40,15 @@ namespace LifeGameScreenSaver
             Application.Current.Shutdown();
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.model.Randomize();
+            this.model.Start();
         }
 
         private void LifeGameView_MouseMove(object sender, MouseEventArgs e)
