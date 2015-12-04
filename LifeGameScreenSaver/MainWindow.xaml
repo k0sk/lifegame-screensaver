@@ -8,5 +8,6 @@
         WindowStyle="None"
         KeyDown="Window_KeyDown"
         MouseDown="Window_MouseDown">
-    <lifegame:BoardView x:Name="LifeGameView"></lifegame:BoardView>
+    <lifegame:BoardView x:Name="LifeGameView"
+                        MouseMove="LifeGameView_MouseMove"></lifegame:BoardView>
 </Window>

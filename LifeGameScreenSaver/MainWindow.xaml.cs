@@ -44,5 +44,14 @@ namespace LifeGameScreenSaver
         {
             Application.Current.Shutdown();
         }
+
+        private void LifeGameView_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point pt = e.GetPosition(this.LifeGameView);
+            int x = (int)((pt.X) / Constants.CELL_SIZE);
+            int y = (int)((pt.Y) / Constants.CELL_SIZE);
+
+            this.model.ToggleCell(x, y);
+        }
     }
 }
