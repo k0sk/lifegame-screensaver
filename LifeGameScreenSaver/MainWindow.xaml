@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:lifegame="clr-namespace:LifeGameScreenSaver"
         Title="LifeGameScreenSaver"
-        Background="Black"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         WindowStyle="None"

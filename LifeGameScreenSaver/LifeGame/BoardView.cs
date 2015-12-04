@@ -27,10 +27,9 @@ namespace LifeGameScreenSaver
 
 		private byte[] values;
 
-		private Pen outline = new Pen(Brushes.LightGray, OUTLINE_WIDTH);
+		private Pen outline = new Pen(Brushes.DimGray, OUTLINE_WIDTH);
 
-        public BoardView()
-            : base()
+        public BoardView() : base()
         {
 			this.AddVisualChild(this.grid);
 			this.AddLogicalChild(this.grid);
@@ -132,7 +131,7 @@ namespace LifeGameScreenSaver
 			using (DrawingContext dc = this.grid.RenderOpen())
 			{
 				Rect background = new Rect(0, 0, Constants.CELL_SIZE * Constants.CELLS_X, Constants.CELL_SIZE * Constants.CELLS_Y);
-				dc.DrawRectangle(Brushes.Gray, null, background);
+				dc.DrawRectangle(Brushes.Black, null, background);
 
 				Point start = new Point(0, 0);
 				Point end = new Point(0, background.Bottom);
@@ -175,7 +174,7 @@ namespace LifeGameScreenSaver
 					
 					if (1 == values[i])
 					{
-						dc.DrawRectangle(Brushes.Red, null, rect);
+						dc.DrawRectangle(Brushes.Lime, null, rect);
 					}
 				}
 			}
