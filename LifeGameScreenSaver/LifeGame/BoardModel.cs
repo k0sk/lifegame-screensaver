@@ -51,10 +51,7 @@ namespace LifeGameScreenSaver
 				this.Stop();
 			}
 
-			for (int i = 0; i < this.current.Length; i++)
-			{
-				this.current[i] = 0;
-            }
+            Array.Clear(this.current, 0, Constants.CELLS_X * Constants.CELLS_Y);
 
             if (null != this.Update)
             {
@@ -84,48 +81,20 @@ namespace LifeGameScreenSaver
 
 		public void Next()
 		{
-			bool living;
-			int count;
-			bool result;
-
 			for (int i = 0; i < this.current.Length; i++)
 			{
-				living = this.current[i] > 0;
+                bool living;
+                int count;
+                bool result;
+
+                living = this.current[i] > 0;
 				count = this.getLivingNeighbours(i);
-				result = false;
+				result = (living && 2 <= count && count <= 3) || (!living && count == 3);
 
-				if (living && count < 2)
-				{
-					result = false;
-				}
-				else if (living && (2 == count || 3 == count))
-				{
-					result = true;
-				}
-				else if (living && count > 3)
-				{
-					result = false;
-				}
-				else if (!living && count == 3)
-				{
-					result = true;
-				}
-
-				if (result)
-				{
-					this.next[i] = 1;
-				}
-				else
-				{
-					this.next[i] = 0;
-				}
+                this.next[i] = (result) ? (byte)1 : (byte)0;
 			}
 
-            // Copy the next state over into current
-            for (int i = 0; i < this.current.Length; i++)
-            {
-                this.current[i] = this.next[i];
-            }
+            this.next.CopyTo(this.current, 0);
 
             if (null != this.Update)
             {
@@ -137,14 +106,7 @@ namespace LifeGameScreenSaver
 		{
 			int i = y * Constants.CELLS_X + x;
 
-			if (0 == this.current[i])
-			{
-				this.current[i] = 1;
-			}
-			else
-			{
-				this.current[i] = 0;
-			}
+            this.current[i] = (this.current[i] == 0) ? (byte)1 : (byte)0;
 
 			if (null != this.Update)
 			{
