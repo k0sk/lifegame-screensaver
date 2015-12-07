@@ -154,83 +154,19 @@ namespace LifeGameScreenSaver
 
 		private int getLivingNeighbours(int i)
 		{
-			int count = 0;
             int x = (i % Constants.CELLS_X);
             int y = (i / Constants.CELLS_X);
 
-			// Check cell on the right
-            if (x != Constants.CELLS_X - 1)
-			{
-				if (this.current[i + 1] > 0)
-				{
-					count++;
-				}
-			}
+            int up = (y == 0) ? Constants.CELLS_X * (Constants.CELLS_Y - 1) : -Constants.CELLS_X;
+            int down = (y == Constants.CELLS_Y - 1) ? -Constants.CELLS_X * (Constants.CELLS_Y - 1) : Constants.CELLS_X;
+            int left = (x == 0) ? (Constants.CELLS_X - 1) : -1;
+            int right = (x == Constants.CELLS_X - 1) ? (-Constants.CELLS_X + 1) : 1;
 
-			// Check cell on bottom right
-            if (x != Constants.CELLS_X - 1 && y != Constants.CELLS_Y - 1)
-			{
-                if (this.current[i + Constants.CELLS_X + 1] > 0)
-				{
-					count++;
-				}
-			}
+            int count = this.current[i + left + up] + this.current[i + up] + this.current[i + right + up]
+                        + this.current[i + left] + this.current[i + right]
+                        + this.current[i + left + down] + this.current[i + down] + this.current[i + right + down];
 
-			// Check cell on bottom
-            if (y != Constants.CELLS_Y - 1)
-			{
-                if (this.current[i + Constants.CELLS_X] > 0)
-				{
-					count++;
-				}
-			}
-
-			// Check cell on bottom left
-            if (x != 0 && y != Constants.CELLS_Y - 1)
-			{
-                if (this.current[i + Constants.CELLS_X - 1] > 0)
-				{
-					count++;
-				}
-			}
-
-			// Check cell on left
-			if (x != 0)
-			{
-				if (this.current[i - 1] > 0)
-				{
-					count++;
-				}
-			}
-
-			// Check cell on top left
-			if (x != 0 && y != 0)
-			{
-                if (this.current[i - Constants.CELLS_X - 1] > 0)
-				{
-					count++;
-				}
-			}
-
-			// Check cell on top
-			if (y != 0)
-			{
-                if (this.current[i - Constants.CELLS_X] > 0)
-				{
-					count++;
-				}
-			}
-
-			// Check cell on top right
-            if (x != Constants.CELLS_X - 1 && y != 0)
-			{
-                if (this.current[i - Constants.CELLS_X + 1] > 0)
-				{
-					count++;
-				}
-			}
-
-			return count;
-		}
+            return count;
+        }
 	}
 }
