@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace LifeGameScreenSaver
 {
@@ -21,13 +22,26 @@ namespace LifeGameScreenSaver
     public partial class MainWindow : Window
     {
         private LifeGame.GameModel model = new LifeGame.GameModel();
+        private DispatcherTimer timer;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            this.timer = new DispatcherTimer();
+            this.timer.Interval = new TimeSpan(TimeSpan.TicksPerMillisecond * 100);
+            this.timer.Tick += new EventHandler(this.times_Up);
+
             this.model.Update += new LifeGame.GameModel.OnUpdate(model_Update);
             this.model.Randomize();
             this.model.Start();
+
+            this.timer.Start();
+        }
+
+        private void times_Up(object sender, EventArgs e)
+        {
+            this.model.Next();
         }
 
         private void model_Update(object sender)

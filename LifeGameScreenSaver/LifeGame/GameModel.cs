@@ -7,7 +7,6 @@ namespace LifeGameScreenSaver.LifeGame
 	{
         public delegate void OnUpdate(object sender);
         public event OnUpdate Update;
-        private DispatcherTimer pulse;
         private byte[] current;
         private byte[] next;
 
@@ -20,14 +19,6 @@ namespace LifeGameScreenSaver.LifeGame
 		{
             this.current = new byte[Constants.CELLS_X * Constants.CELLS_Y];
             this.next = new byte[Constants.CELLS_X * Constants.CELLS_Y];
-            this.pulse = new DispatcherTimer();
-            this.pulse.Interval = new TimeSpan(TimeSpan.TicksPerMillisecond * 100);
-            this.pulse.Tick += new EventHandler(this.pulse_Elapsed);
-		}
-
-		private void pulse_Elapsed(object sender, EventArgs e)
-		{
-			this.Next();
 		}
 
 		public Boolean IsActive { get; private set; }
@@ -35,13 +26,11 @@ namespace LifeGameScreenSaver.LifeGame
 		public void Start()
 		{
 			this.IsActive = true;
-			this.pulse.Start();
 		}
 
 		public void Stop()
 		{
 			this.IsActive = false;
-			this.pulse.Stop();
 		}
 
 		public void Clear()
