@@ -63,6 +63,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LifeGame\Commands\NextCommand.cs" />
+    <Compile Include="LifeGame\Commands\RandomStartCommand.cs" />
+    <Compile Include="LifeGame\Commands\ToggleCellCommand.cs" />
     <Compile Include="LifeGame\GameModel.cs" />
     <Compile Include="LifeGame\GameViewModel.cs" />
     <Compile Include="LifeGame\Constants.cs" />

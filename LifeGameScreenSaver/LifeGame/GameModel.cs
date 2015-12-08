@@ -10,42 +10,26 @@ namespace LifeGameScreenSaver.LifeGame
         private byte[] current;
         private byte[] next;
 
-        public byte[] Cells
-        {
-            get { return this.current; }
-        }
-
 		public GameModel()
 		{
             this.current = new byte[Constants.CELLS_X * Constants.CELLS_Y];
             this.next = new byte[Constants.CELLS_X * Constants.CELLS_Y];
 		}
 
-		public Boolean IsActive { get; private set; }
-
-		public void Start()
-		{
-			this.IsActive = true;
-		}
-
-		public void Stop()
-		{
-			this.IsActive = false;
-		}
+        public byte[] Cells
+        {
+            get { return this.current; }
+        }
 
 		public void Clear()
 		{
-			if (this.IsActive) this.Stop();
-
             Array.Clear(this.current, 0, Constants.CELLS_X * Constants.CELLS_Y);
 
-            if (null != this.Update) this.Update(this);
+            if (this.Update != null) this.Update(this);
 		}
 
 		public void Randomize()
 		{
-			if (this.IsActive) this.Stop();
-
 			Random r = new Random((int)DateTime.Now.Ticks);
 
 			for (int i = 0; i < this.current.Length; i++)
@@ -53,7 +37,7 @@ namespace LifeGameScreenSaver.LifeGame
 				this.current[i] = Convert.ToByte(r.Next(0, 2));
             }
 
-            if (null != this.Update) this.Update(this);
+            if (this.Update != null) this.Update(this);
 		}
 
 		public void Next()
@@ -69,16 +53,15 @@ namespace LifeGameScreenSaver.LifeGame
 
             this.next.CopyTo(this.current, 0);
 
-            if (null != this.Update) this.Update(this);
+            if (this.Update != null) this.Update(this);
 		}
 
 		public void ToggleCell(int x, int y)
 		{
-			int i = y * Constants.CELLS_X + x;
-
+            int i = y * LifeGame.Constants.CELLS_X + x;
             this.current[i] = (this.current[i] == 0) ? (byte)1 : (byte)0;
 
-			if (null != this.Update) this.Update(this);
+            if (this.Update != null) this.Update(this);
 		}
 
         private int countAliveNeighbours(int i)

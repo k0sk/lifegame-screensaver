@@ -9,6 +9,6 @@
         KeyDown="Window_KeyDown"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         MouseRightButtonDown="Window_MouseRightButtonDown">
-    <lifegame:GameViewModel x:Name="LifeGameView"
+    <lifegame:GameViewModel x:Name="gameViewModel"
                         MouseMove="LifeGameView_MouseMove"></lifegame:GameViewModel>
 </Window>

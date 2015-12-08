@@ -21,7 +21,6 @@ namespace LifeGameScreenSaver
     /// </summary>
     public partial class MainWindow : Window
     {
-        private LifeGame.GameModel model = new LifeGame.GameModel();
         private DispatcherTimer timer;
 
         public MainWindow()
@@ -32,21 +31,14 @@ namespace LifeGameScreenSaver
             this.timer.Interval = new TimeSpan(TimeSpan.TicksPerMillisecond * 100);
             this.timer.Tick += new EventHandler(this.times_Up);
 
-            this.model.Update += new LifeGame.GameModel.OnUpdate(model_Update);
-            this.model.Randomize();
-            this.model.Start();
+            this.gameViewModel.RandomStart.Execute(null);
 
             this.timer.Start();
         }
 
         private void times_Up(object sender, EventArgs e)
         {
-            this.model.Next();
-        }
-
-        private void model_Update(object sender)
-        {
-            this.LifeGameView.Update(this.model.Cells);
+            this.gameViewModel.Next.Execute(null);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -61,17 +53,16 @@ namespace LifeGameScreenSaver
 
         private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.model.Randomize();
-            this.model.Start();
+            this.gameViewModel.RandomStart.Execute(null);
         }
 
         private void LifeGameView_MouseMove(object sender, MouseEventArgs e)
         {
-            Point pt = e.GetPosition(this.LifeGameView);
+            Point pt = e.GetPosition(this.gameViewModel);
             int x = (int)((pt.X) / LifeGame.Constants.CELL_SIZE);
             int y = (int)((pt.Y) / LifeGame.Constants.CELL_SIZE);
 
-            this.model.ToggleCell(x, y);
+            this.gameViewModel.ToggleCell.Execute(new Tuple<int, int>(x, y));
         }
     }
 }

@@ -9,6 +9,7 @@ namespace LifeGameScreenSaver.LifeGame
 {
     public class GameViewModel : FrameworkElement
     {
+        public GameModel gameModel = new GameModel();
 		private const double OUTLINE_WIDTH = 1;
 		private DrawingVisual[] visuals;
 		private DrawingVisual grid = new DrawingVisual();
@@ -18,6 +19,8 @@ namespace LifeGameScreenSaver.LifeGame
 
         public GameViewModel() : base()
         {
+            this.gameModel.Update += (sender) => this.Update(this.gameModel.Cells);
+
 			this.AddVisualChild(this.grid);
 			this.AddLogicalChild(this.grid);
 
@@ -29,6 +32,8 @@ namespace LifeGameScreenSaver.LifeGame
 			this.drawGrid();
 			this.drawCells();
         }
+
+        public Boolean IsActive { get; set; }
 
         public void Update(byte[] values)
         {
@@ -121,5 +126,23 @@ namespace LifeGameScreenSaver.LifeGame
 				}
 			}
 		}
+
+        private ICommand randomStart;
+        public ICommand RandomStart
+        {
+            get { return randomStart ?? (randomStart = new RandomStartCommand(this)); }
+        }
+
+        private ICommand next;
+        public ICommand Next
+        {
+            get { return next ?? (next = new NextCommand(this)); }
+        }
+
+        private ICommand toggleCell;
+        public ICommand ToggleCell
+        {
+            get { return toggleCell ?? (toggleCell = new ToggleCellCommand(this)); }
+        }
     }
 }
