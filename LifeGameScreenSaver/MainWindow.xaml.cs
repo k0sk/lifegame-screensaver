@@ -31,9 +31,11 @@ namespace LifeGameScreenSaver
             this.timer.Interval = new TimeSpan(TimeSpan.TicksPerMillisecond * 100);
             this.timer.Tick += new EventHandler(this.times_Up);
 
-            this.gameViewModel.RandomStart.Execute(null);
-
-            this.timer.Start();
+            Loaded += (s, e) => {
+                this.gameViewModel.AdjustBoardSize.Execute(new Tuple<int, int>((int)this.Width, (int)this.Height));
+                this.gameViewModel.RandomStart.Execute(null);
+                this.timer.Start();
+            };
         }
 
         private void times_Up(object sender, EventArgs e)
@@ -59,8 +61,8 @@ namespace LifeGameScreenSaver
         private void LifeGameView_MouseMove(object sender, MouseEventArgs e)
         {
             Point pt = e.GetPosition(this.gameViewModel);
-            int x = (int)((pt.X) / LifeGame.Constants.CELL_SIZE);
-            int y = (int)((pt.Y) / LifeGame.Constants.CELL_SIZE);
+            int x = (int)((pt.X) / LifeGame.Defaults.CELL_SIZE);
+            int y = (int)((pt.Y) / LifeGame.Defaults.CELL_SIZE);
 
             this.gameViewModel.ToggleCell.Execute(new Tuple<int, int>(x, y));
         }

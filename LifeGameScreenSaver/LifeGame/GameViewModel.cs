@@ -10,12 +10,15 @@ namespace LifeGameScreenSaver.LifeGame
     public class GameViewModel : FrameworkElement
     {
         public GameModel gameModel = new GameModel();
-		private const double OUTLINE_WIDTH = 1;
+		private const double OUTLINE_WIDTH = Defaults.OUTLINE_WIDTH;
 		private DrawingVisual[] visuals;
 		private DrawingVisual grid = new DrawingVisual();
 		private DrawingVisual cells = new DrawingVisual();
 		private byte[] values;
 		private Pen outline = new Pen(Brushes.DimGray, OUTLINE_WIDTH);
+        private int cellSize = Defaults.CELL_SIZE;
+        private int sizeX = Defaults.RES_X / Defaults.CELL_SIZE;
+        private int sizeY = Defaults.RES_Y / Defaults.CELL_SIZE;
 
         public GameViewModel() : base()
         {
@@ -33,8 +36,6 @@ namespace LifeGameScreenSaver.LifeGame
 			this.drawCells();
         }
 
-        public Boolean IsActive { get; set; }
-
         public void Update(byte[] values)
         {
 			this.values = values;
@@ -46,6 +47,28 @@ namespace LifeGameScreenSaver.LifeGame
 		{
 			this.drawGrid();
 		}
+
+        public void ChangeResSize(int width, int height)
+        {
+
+            for (int s = Defaults.CELL_SIZE; s <= width / 2; s += 8)
+            {
+                if ((width % s == 0) && (height % s == 0))
+                {
+                    this.cellSize = s;
+                    break;
+                }
+            }
+
+                this.sizeX = width / this.cellSize;
+            this.sizeY = height / this.cellSize;
+
+            this.gameModel.ChangeBoardSize(this.sizeX, this.sizeY);
+        }
+
+        public Boolean IsActive { get; set; }
+        public int SizeX { get; private set; }
+        public int SizeY { get; private set; }
 
 		protected override int VisualChildrenCount
 		{
@@ -64,7 +87,7 @@ namespace LifeGameScreenSaver.LifeGame
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			return new Size(Constants.CELLS_X * Constants.CELL_SIZE, Constants.CELLS_Y * Constants.CELL_SIZE);
+			return new Size(this.sizeX * this.cellSize, this.sizeY * this.cellSize);
 		}
 
 		protected override void OnRender(DrawingContext drawingContext)
@@ -77,25 +100,25 @@ namespace LifeGameScreenSaver.LifeGame
 		{
 			using (DrawingContext dc = this.grid.RenderOpen())
 			{
-				Rect background = new Rect(0, 0, Constants.CELL_SIZE * Constants.CELLS_X, Constants.CELL_SIZE * Constants.CELLS_Y);
+				Rect background = new Rect(0, 0, this.cellSize * this.sizeX, this.cellSize * this.sizeY);
 				dc.DrawRectangle(Brushes.Black, null, background);
 
 				Point start = new Point(0, 0);
 				Point end = new Point(0, background.Bottom);
-				for (int i = 0; i < Constants.CELLS_X; i++)
+				for (int i = 0; i < this.sizeX; i++)
 				{
 					dc.DrawLine(outline, start, end);
-					start.Offset(Constants.CELL_SIZE, 0);
-					end.Offset(Constants.CELL_SIZE, 0);
+					start.Offset(this.cellSize, 0);
+					end.Offset(this.cellSize, 0);
 				}
 
 				start = new Point(0, 0);
 				end = new Point(background.Right, 0);
-				for (int i = 0; i < Constants.CELLS_X; i++)
+				for (int i = 0; i < this.sizeX; i++)
 				{
 					dc.DrawLine(outline, start, end);
-					start.Offset(0, Constants.CELL_SIZE);
-					end.Offset(0, Constants.CELL_SIZE);
+					start.Offset(0, this.cellSize);
+					end.Offset(0, this.cellSize);
 				}
 			}
 		}
@@ -111,13 +134,13 @@ namespace LifeGameScreenSaver.LifeGame
 			{
 				int x = 0;
 				int y = 0;
-				Rect rect = new Rect(OUTLINE_WIDTH, OUTLINE_WIDTH, Constants.CELL_SIZE - OUTLINE_WIDTH, Constants.CELL_SIZE - OUTLINE_WIDTH);
+				Rect rect = new Rect(OUTLINE_WIDTH, OUTLINE_WIDTH, this.cellSize - OUTLINE_WIDTH, this.cellSize - OUTLINE_WIDTH);
 				
 				for (int i = 0; i < values.Length; i++)
 				{
-					x = (i % Constants.CELLS_X);
-					y = (i / Constants.CELLS_X);
-					rect.Location = new Point((x * Constants.CELL_SIZE) + OUTLINE_WIDTH, (y * Constants.CELL_SIZE) + OUTLINE_WIDTH);
+					x = (i % this.sizeX);
+					y = (i / this.sizeX);
+					rect.Location = new Point((x * this.cellSize) + OUTLINE_WIDTH, (y * this.cellSize) + OUTLINE_WIDTH);
 					
 					if (1 == values[i])
 					{
@@ -127,16 +150,22 @@ namespace LifeGameScreenSaver.LifeGame
 			}
 		}
 
+        private ICommand adjustBoardSize;
+        public ICommand AdjustBoardSize
+        {
+            get { return adjustBoardSize ?? (adjustBoardSize = new AdjustBoardSizeCommand(this)); }
+        }
+
+        private ICommand next;
+                public ICommand Next
+                {
+                    get { return next ?? (next = new NextCommand(this)); }
+                }
+
         private ICommand randomStart;
         public ICommand RandomStart
         {
             get { return randomStart ?? (randomStart = new RandomStartCommand(this)); }
-        }
-
-        private ICommand next;
-        public ICommand Next
-        {
-            get { return next ?? (next = new NextCommand(this)); }
         }
 
         private ICommand toggleCell;

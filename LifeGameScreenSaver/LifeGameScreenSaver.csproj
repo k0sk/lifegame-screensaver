@@ -63,12 +63,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LifeGame\Commands\AdjustBoardSizeCommand.cs" />
     <Compile Include="LifeGame\Commands\NextCommand.cs" />
     <Compile Include="LifeGame\Commands\RandomStartCommand.cs" />
     <Compile Include="LifeGame\Commands\ToggleCellCommand.cs" />
     <Compile Include="LifeGame\GameModel.cs" />
     <Compile Include="LifeGame\GameViewModel.cs" />
-    <Compile Include="LifeGame\Constants.cs" />
+    <Compile Include="LifeGame\Defaults.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
