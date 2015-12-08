@@ -11,11 +11,12 @@ namespace LifeGameScreenSaver.LifeGame
     {
         public GameModel gameModel = new GameModel();
 		private const double OUTLINE_WIDTH = Defaults.OUTLINE_WIDTH;
+        private Pen outline = new Pen(Brushes.DimGray, OUTLINE_WIDTH);
 		private DrawingVisual[] visuals;
 		private DrawingVisual grid = new DrawingVisual();
 		private DrawingVisual cells = new DrawingVisual();
-		private byte[] values;
-		private Pen outline = new Pen(Brushes.DimGray, OUTLINE_WIDTH);
+		private byte[] states;
+        private long countLives;
         private int cellSize = Defaults.CELL_SIZE;
         private int sizeX = Defaults.RES_X / Defaults.CELL_SIZE;
         private int sizeY = Defaults.RES_Y / Defaults.CELL_SIZE;
@@ -36,9 +37,9 @@ namespace LifeGameScreenSaver.LifeGame
 			this.drawCells();
         }
 
-        public void Update(byte[] values)
+        public void Update(byte[] states)
         {
-			this.values = values;
+			this.states = states;
 			this.drawGrid();
 			this.drawCells();
         }
@@ -60,7 +61,7 @@ namespace LifeGameScreenSaver.LifeGame
                 }
             }
 
-                this.sizeX = width / this.cellSize;
+            this.sizeX = width / this.cellSize;
             this.sizeY = height / this.cellSize;
 
             this.gameModel.ChangeBoardSize(this.sizeX, this.sizeY);
@@ -125,10 +126,7 @@ namespace LifeGameScreenSaver.LifeGame
 
 		private void drawCells()
 		{
-			if (null == this.values)
-			{
-				return;
-			}
+			if (null == this.states) return;
 
 			using (DrawingContext dc = this.cells.RenderOpen())
 			{
@@ -136,13 +134,13 @@ namespace LifeGameScreenSaver.LifeGame
 				int y = 0;
 				Rect rect = new Rect(OUTLINE_WIDTH, OUTLINE_WIDTH, this.cellSize - OUTLINE_WIDTH, this.cellSize - OUTLINE_WIDTH);
 				
-				for (int i = 0; i < values.Length; i++)
+				for (int i = 0; i < states.Length; i++)
 				{
 					x = (i % this.sizeX);
 					y = (i / this.sizeX);
 					rect.Location = new Point((x * this.cellSize) + OUTLINE_WIDTH, (y * this.cellSize) + OUTLINE_WIDTH);
 					
-					if (1 == values[i])
+					if (states[i] == 1)
 					{
 						dc.DrawRectangle(Brushes.Lime, null, rect);
 					}
