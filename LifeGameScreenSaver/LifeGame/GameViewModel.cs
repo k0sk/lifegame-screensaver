@@ -16,7 +16,7 @@ namespace LifeGameScreenSaver.LifeGame
 		private DrawingVisual grid = new DrawingVisual();
 		private DrawingVisual cells = new DrawingVisual();
 		private byte[] states;
-        private long countLives;
+        private uint countLives;
         private int cellSize = Defaults.CELL_SIZE;
         private int sizeX = Defaults.RES_X / Defaults.CELL_SIZE;
         private int sizeY = Defaults.RES_Y / Defaults.CELL_SIZE;
@@ -37,7 +37,7 @@ namespace LifeGameScreenSaver.LifeGame
 			this.drawCells();
         }
 
-        public void Update(byte[] states, long count)
+        public void Update(byte[] states, uint count)
         {
 			this.states = states;
             this.countLives = count;
@@ -69,6 +69,7 @@ namespace LifeGameScreenSaver.LifeGame
         }
 
         public Boolean IsActive { get; set; }
+        public uint CountLives { get; private set; }
         public int SizeX { get; private set; }
         public int SizeY { get; private set; }
 

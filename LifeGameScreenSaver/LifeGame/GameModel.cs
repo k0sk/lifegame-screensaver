@@ -9,7 +9,7 @@ namespace LifeGameScreenSaver.LifeGame
         public event OnUpdate Update;
         private byte[] current;
         private byte[] next;
-        private long countLives = 0;
+        private uint countLives = 0;
         private int sizeX = Defaults.RES_X / Defaults.CELL_SIZE;
         private int sizeY = Defaults.RES_Y / Defaults.CELL_SIZE;
 
@@ -45,7 +45,7 @@ namespace LifeGameScreenSaver.LifeGame
 
 		public void Next()
 		{
-            long lives = 0;
+            uint lives = 0;
 
 			for (int i = 0; i < this.current.Length; i++)
 			{
