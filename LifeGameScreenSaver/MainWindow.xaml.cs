@@ -22,6 +22,7 @@ namespace LifeGameScreenSaver
     public partial class MainWindow : Window
     {
         private DispatcherTimer timer;
+        Point? lastMousePos;
 
         public MainWindow()
         {
@@ -57,14 +58,25 @@ namespace LifeGameScreenSaver
         {
             this.gameViewModel.RandomStart.Execute(null);
         }
-
         private void LifeGameView_MouseMove(object sender, MouseEventArgs e)
         {
-            Point pt = e.GetPosition(this.gameViewModel);
-            int x = (int)((pt.X) / LifeGame.Defaults.CELL_SIZE);
-            int y = (int)((pt.Y) / LifeGame.Defaults.CELL_SIZE);
+            Point currentMousePos = e.GetPosition(this.gameViewModel);
 
-            this.gameViewModel.ToggleCell.Execute(new Tuple<int, int>(x, y));
+            if (lastMousePos.HasValue)
+            {
+                if (Math.Abs(lastMousePos.Value.X - currentMousePos.X) > this.gameViewModel.CellSize ||
+                    Math.Abs(lastMousePos.Value.Y - currentMousePos.Y) > this.gameViewModel.CellSize)
+                {
+                    int x = (int)((currentMousePos.X) / LifeGame.Defaults.CELL_SIZE);
+                    int y = (int)((currentMousePos.Y) / LifeGame.Defaults.CELL_SIZE);
+
+                    this.gameViewModel.ToggleCell.Execute(new Tuple<int, int>(x, y));
+                }
+            }
+            else
+            {
+                this.lastMousePos = currentMousePos;
+            }            
         }
     }
 }

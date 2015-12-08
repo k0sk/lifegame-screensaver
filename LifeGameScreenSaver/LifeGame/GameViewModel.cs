@@ -69,6 +69,7 @@ namespace LifeGameScreenSaver.LifeGame
         }
 
         public Boolean IsActive { get; set; }
+        public int CellSize { get; private set; }
         public int SizeX { get; private set; }
         public int SizeY { get; private set; }
 
