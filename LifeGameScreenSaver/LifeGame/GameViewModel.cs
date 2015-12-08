@@ -135,15 +135,15 @@ namespace LifeGameScreenSaver.LifeGame
 				int x = 0;
 				int y = 0;
 				Rect rect = new Rect(OUTLINE_WIDTH, OUTLINE_WIDTH, this.cellSize - OUTLINE_WIDTH, this.cellSize - OUTLINE_WIDTH);
-				
-				for (int i = 0; i < states.Length; i++)
+
+                for (int i = 0, l = states.Length; i < l; i++)
 				{
-					x = (i % this.sizeX);
-					y = (i / this.sizeX);
-					rect.Location = new Point((x * this.cellSize) + OUTLINE_WIDTH, (y * this.cellSize) + OUTLINE_WIDTH);
-					
 					if (states[i] == 1)
 					{
+                        x = (i % this.sizeX);
+                        y = (i / this.sizeX);
+
+                        rect.Location = new Point((x * this.cellSize) + OUTLINE_WIDTH, (y * this.cellSize) + OUTLINE_WIDTH);
 						dc.DrawRectangle(Brushes.Lime, null, rect);
 					}
 				}

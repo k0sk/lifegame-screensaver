@@ -64,8 +64,8 @@ namespace LifeGameScreenSaver
 
             if (lastMousePos.HasValue)
             {
-                if (Math.Abs(lastMousePos.Value.X - currentMousePos.X) > this.gameViewModel.CellSize ||
-                    Math.Abs(lastMousePos.Value.Y - currentMousePos.Y) > this.gameViewModel.CellSize)
+                if (Math.Abs(lastMousePos.Value.X - currentMousePos.X) > this.gameViewModel.CellSize * 2 ||
+                    Math.Abs(lastMousePos.Value.Y - currentMousePos.Y) > this.gameViewModel.CellSize * 2)
                 {
                     int x = (int)((currentMousePos.X) / LifeGame.Defaults.CELL_SIZE);
                     int y = (int)((currentMousePos.Y) / LifeGame.Defaults.CELL_SIZE);
