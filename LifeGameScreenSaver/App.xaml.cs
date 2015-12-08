@@ -46,7 +46,6 @@ namespace LifeGameScreenSaver
                 window.Width = s.Bounds.Width;
                 window.Height = s.Bounds.Height;
                 window.Show();
-                window.WindowState = System.Windows.WindowState.Maximized;
             }
         }
 

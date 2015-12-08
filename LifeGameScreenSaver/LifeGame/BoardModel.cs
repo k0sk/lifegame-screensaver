@@ -46,25 +46,16 @@ namespace LifeGameScreenSaver
 
 		public void Clear()
 		{
-			if (this.IsActive)
-			{
-				this.Stop();
-			}
+			if (this.IsActive) this.Stop();
 
             Array.Clear(this.current, 0, Constants.CELLS_X * Constants.CELLS_Y);
 
-            if (null != this.Update)
-            {
-                this.Update(this);
-            }
+            if (null != this.Update) this.Update(this);
 		}
 
 		public void Randomize()
 		{
-			if (this.IsActive)
-			{
-				this.Stop();
-			}
+			if (this.IsActive) this.Stop();
 
 			Random r = new Random((int)DateTime.Now.Ticks);
 
@@ -73,33 +64,23 @@ namespace LifeGameScreenSaver
 				this.current[i] = Convert.ToByte(r.Next(0, 2));
             }
 
-            if (null != this.Update)
-            {
-                this.Update(this);
-            }
+            if (null != this.Update) this.Update(this);
 		}
 
 		public void Next()
 		{
 			for (int i = 0; i < this.current.Length; i++)
 			{
-                bool living;
-                int count;
-                bool result;
+                bool is_alive = this.current[i] > 0;
+                int count = this.countAliveNeighbours(i);
 
-                living = this.current[i] > 0;
-				count = this.getLivingNeighbours(i);
-				result = (living && 2 <= count && count <= 3) || (!living && count == 3);
-
+                bool result = (is_alive && 2 <= count && count <= 3) || (!is_alive && count == 3);
                 this.next[i] = (result) ? (byte)1 : (byte)0;
 			}
 
             this.next.CopyTo(this.current, 0);
 
-            if (null != this.Update)
-            {
-                this.Update(this);
-            }
+            if (null != this.Update) this.Update(this);
 		}
 
 		public void ToggleCell(int x, int y)
@@ -108,13 +89,10 @@ namespace LifeGameScreenSaver
 
             this.current[i] = (this.current[i] == 0) ? (byte)1 : (byte)0;
 
-			if (null != this.Update)
-			{
-				this.Update(this);
-			}
+			if (null != this.Update) this.Update(this);
 		}
 
-		private int getLivingNeighbours(int i)
+        private int countAliveNeighbours(int i)
 		{
             int x = (i % Constants.CELLS_X);
             int y = (i / Constants.CELLS_X);
@@ -124,9 +102,8 @@ namespace LifeGameScreenSaver
             int left = (x == 0) ? (Constants.CELLS_X - 1) : -1;
             int right = (x == Constants.CELLS_X - 1) ? (-Constants.CELLS_X + 1) : 1;
 
-            int count = this.current[i + left + up] + this.current[i + up] + this.current[i + right + up]
-                        + this.current[i + left] + this.current[i + right]
-                        + this.current[i + left + down] + this.current[i + down] + this.current[i + right + down];
+            int count = this.current[i + up] + this.current[i + right + up] + this.current[i + right] + this.current[i + right + down]
+                        + this.current[i + down] + this.current[i + left + down] + this.current[i + left] + this.current[i + left + up];
 
             return count;
         }
