@@ -9,6 +9,7 @@ namespace LifeGameScreenSaver.LifeGame
         public event OnUpdate Update;
         private byte[] current;
         private byte[] next;
+        private long countLives = 0;
         private int sizeX = Defaults.RES_X / Defaults.CELL_SIZE;
         private int sizeY = Defaults.RES_Y / Defaults.CELL_SIZE;
 
@@ -44,16 +45,27 @@ namespace LifeGameScreenSaver.LifeGame
 
 		public void Next()
 		{
+            long lives = 0;
+
 			for (int i = 0; i < this.current.Length; i++)
 			{
                 bool is_alive = this.current[i] > 0;
                 int count = this.countAliveNeighbours(i);
-
                 bool is_survive = (is_alive && 2 <= count && count <= 3) || (!is_alive && count == 3);
-                this.next[i] = (is_survive) ? (byte)1 : (byte)0;
+
+                if (is_survive)
+                {
+                    this.next[i] = (byte)1;
+                    lives++;
+                }
+                else
+                {
+                    this.next[i] = (byte)0;
+                }
 			}
 
             this.next.CopyTo(this.current, 0);
+            this.countLives = lives;
 
             if (this.Update != null) this.Update(this);
 		}

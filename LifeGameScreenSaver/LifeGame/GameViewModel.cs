@@ -23,7 +23,7 @@ namespace LifeGameScreenSaver.LifeGame
 
         public GameViewModel() : base()
         {
-            this.gameModel.Update += (sender) => this.Update(this.gameModel.Cells);
+            this.gameModel.Update += (sender) => this.Update(this.gameModel.Cells, this.countLives);
 
 			this.AddVisualChild(this.grid);
 			this.AddLogicalChild(this.grid);
@@ -37,9 +37,10 @@ namespace LifeGameScreenSaver.LifeGame
 			this.drawCells();
         }
 
-        public void Update(byte[] states)
+        public void Update(byte[] states, long count)
         {
 			this.states = states;
+            this.countLives = count;
 			this.drawGrid();
 			this.drawCells();
         }
