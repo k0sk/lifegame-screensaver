@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Threading;
 
-namespace LifeGameScreenSaver
+namespace LifeGameScreenSaver.LifeGame
 {
-	public class BoardModel
+	public class GameModel
 	{
         public delegate void OnUpdate(object sender);
         public event OnUpdate Update;
@@ -16,7 +16,7 @@ namespace LifeGameScreenSaver
             get { return this.current; }
         }
 
-		public BoardModel()
+		public GameModel()
 		{
             this.current = new byte[Constants.CELLS_X * Constants.CELLS_Y];
             this.next = new byte[Constants.CELLS_X * Constants.CELLS_Y];

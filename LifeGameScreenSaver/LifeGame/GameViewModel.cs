@@ -5,9 +5,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace LifeGameScreenSaver
+namespace LifeGameScreenSaver.LifeGame
 {
-    public class BoardView : FrameworkElement
+    public class GameViewModel : FrameworkElement
     {
 		private const double OUTLINE_WIDTH = 1;
 		private DrawingVisual[] visuals;
@@ -16,7 +16,7 @@ namespace LifeGameScreenSaver
 		private byte[] values;
 		private Pen outline = new Pen(Brushes.DimGray, OUTLINE_WIDTH);
 
-        public BoardView() : base()
+        public GameViewModel() : base()
         {
 			this.AddVisualChild(this.grid);
 			this.AddLogicalChild(this.grid);

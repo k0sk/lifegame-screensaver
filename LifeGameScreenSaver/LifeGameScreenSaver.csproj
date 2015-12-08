@@ -63,8 +63,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LifeGame\BoardModel.cs" />
-    <Compile Include="LifeGame\BoardView.cs" />
+    <Compile Include="LifeGame\GameModel.cs" />
+    <Compile Include="LifeGame\GameViewModel.cs" />
     <Compile Include="LifeGame\Constants.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

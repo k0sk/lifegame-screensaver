@@ -20,17 +20,17 @@ namespace LifeGameScreenSaver
     /// </summary>
     public partial class MainWindow : Window
     {
-        private BoardModel model = new BoardModel();
+        private LifeGame.GameModel model = new LifeGame.GameModel();
 
         public MainWindow()
         {
             InitializeComponent();
-            this.model.Update += new BoardModel.OnUpdate(model_Update);
+            this.model.Update += new LifeGame.GameModel.OnUpdate(model_Update);
             this.model.Randomize();
             this.model.Start();
         }
 
-        void model_Update(object sender)
+        private void model_Update(object sender)
         {
             this.LifeGameView.Update(this.model.Cells);
         }
@@ -54,8 +54,8 @@ namespace LifeGameScreenSaver
         private void LifeGameView_MouseMove(object sender, MouseEventArgs e)
         {
             Point pt = e.GetPosition(this.LifeGameView);
-            int x = (int)((pt.X) / Constants.CELL_SIZE);
-            int y = (int)((pt.Y) / Constants.CELL_SIZE);
+            int x = (int)((pt.X) / LifeGame.Constants.CELL_SIZE);
+            int y = (int)((pt.Y) / LifeGame.Constants.CELL_SIZE);
 
             this.model.ToggleCell(x, y);
         }

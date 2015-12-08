@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace LifeGameScreenSaver
+namespace LifeGameScreenSaver.LifeGame
 {
     public class Constants
     {
