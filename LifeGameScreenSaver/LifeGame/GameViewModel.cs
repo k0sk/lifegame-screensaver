@@ -138,14 +138,14 @@ namespace LifeGameScreenSaver.LifeGame
 				int y = 0;
 				Rect rect = new Rect(OUTLINE_WIDTH, OUTLINE_WIDTH, this.CellSize - OUTLINE_WIDTH, this.CellSize - OUTLINE_WIDTH);
 				
-				for (int i = 0; i < states.Length; i++)
+                for (int i = 0, l = states.Length; i < l; i++)
 				{
-					x = (i % this.SizeX);
-					y = (i / this.SizeX);
-					rect.Location = new Point((x * this.CellSize) + OUTLINE_WIDTH, (y * this.CellSize) + OUTLINE_WIDTH);
-					
 					if (states[i] == 1)
-					{
+				{
+                        x = (i % this.SizeX);
+                        y = (i / this.SizeX);
+					
+                        rect.Location = new Point((x * this.CellSize) + OUTLINE_WIDTH, (y * this.CellSize) + OUTLINE_WIDTH);
 						dc.DrawRectangle(Brushes.Lime, null, rect);
 					}
 				}
@@ -159,10 +159,10 @@ namespace LifeGameScreenSaver.LifeGame
         }
 
         private ICommand next;
-        public ICommand Next
-        {
-            get { return next ?? (next = new NextCommand(this)); }
-        }
+                public ICommand Next
+                {
+                    get { return next ?? (next = new NextCommand(this)); }
+                }
 
         private ICommand randomStart;
         public ICommand RandomStart
