@@ -9,10 +9,10 @@ namespace LifeGameScreenSaver.LifeGame
         public event OnUpdate Update;
         private byte[] current;
         private byte[] next;
-        private long countLives = 0;
 
 		public GameModel()
 		{
+            this.CountLives = 0;
             this.SizeX = Defaults.RES_X / Defaults.CELL_SIZE;
             this.SizeY = Defaults.RES_Y / Defaults.CELL_SIZE;
 
@@ -25,6 +25,7 @@ namespace LifeGameScreenSaver.LifeGame
             get { return this.current; }
         }
 
+        public uint CountLives { get; set; }
         public int SizeX { get; private set; }
         public int SizeY { get; private set; }
 
@@ -49,7 +50,7 @@ namespace LifeGameScreenSaver.LifeGame
 
 		public void Next()
 		{
-            long lives = 0;
+            uint lives = 0;
 
 			for (int i = 0; i < this.current.Length; i++)
 			{
@@ -69,7 +70,7 @@ namespace LifeGameScreenSaver.LifeGame
 			}
 
             this.next.CopyTo(this.current, 0);
-            this.countLives = lives;
+            this.CountLives = lives;
 
             if (this.Update != null) this.Update(this);
 		}

@@ -22,7 +22,8 @@ namespace LifeGameScreenSaver
     public partial class MainWindow : Window
     {
         private DispatcherTimer timer;
-        Point? lastMousePos;
+        private uint countLives = 0;
+        private int countPause = 0;
 
         public MainWindow()
         {
@@ -43,6 +44,21 @@ namespace LifeGameScreenSaver
         private void times_Up(object sender, EventArgs e)
         {
             this.gameViewModel.Next.Execute(null);
+
+            if (this.countLives == this.gameViewModel.CountLives)
+            {
+                countPause++;
+            }
+            else
+            {
+                this.countLives = this.gameViewModel.CountLives;
+            }
+
+            if (countPause > 1000)
+            {
+                this.countPause = 0;
+                this.gameViewModel.RandomStart.Execute(null);
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -59,6 +75,8 @@ namespace LifeGameScreenSaver
         {
             this.gameViewModel.RandomStart.Execute(null);
         }
+
+        Point? lastMousePos;
         private void LifeGameView_MouseMove(object sender, MouseEventArgs e)
         {
             Point currentMousePos = e.GetPosition(this.gameViewModel);

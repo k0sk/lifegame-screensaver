@@ -16,15 +16,15 @@ namespace LifeGameScreenSaver.LifeGame
 		private DrawingVisual grid = new DrawingVisual();
 		private DrawingVisual cells = new DrawingVisual();
 		private byte[] states;
-        private long countLives;
 
         public GameViewModel() : base()
         {
-            this.gameModel.Update += (sender) => this.Update(this.gameModel.Cells, this.countLives);
+            this.gameModel.Update += (sender) => this.Update(this.gameModel.Cells, this.gameModel.CountLives);
 
             this.CellSize = Defaults.CELL_SIZE;
             this.SizeX = Defaults.RES_X / Defaults.CELL_SIZE;
             this.SizeY = Defaults.RES_Y / Defaults.CELL_SIZE;
+            this.CountLives = 0;
 
 			this.AddVisualChild(this.grid);
 			this.AddLogicalChild(this.grid);
@@ -38,10 +38,10 @@ namespace LifeGameScreenSaver.LifeGame
 			this.drawCells();
         }
 
-        public void Update(byte[] states, long count)
+        public void Update(byte[] states, uint count)
         {
 			this.states = states;
-            this.countLives = count;
+            this.CountLives = count;
 			this.drawGrid();
 			this.drawCells();
         }
@@ -72,6 +72,7 @@ namespace LifeGameScreenSaver.LifeGame
         public Boolean IsActive { get; set; }
 
         public int CellSize { get; private set; }
+        public uint CountLives { get; private set; }
         public int SizeX { get; private set; }
         public int SizeY { get; private set; }
 
@@ -141,7 +142,7 @@ namespace LifeGameScreenSaver.LifeGame
                 for (int i = 0, l = states.Length; i < l; i++)
 				{
 					if (states[i] == 1)
-				{
+					{
                         x = (i % this.SizeX);
                         y = (i / this.SizeX);
 					
@@ -159,10 +160,10 @@ namespace LifeGameScreenSaver.LifeGame
         }
 
         private ICommand next;
-                public ICommand Next
-                {
-                    get { return next ?? (next = new NextCommand(this)); }
-                }
+        public ICommand Next
+        {
+            get { return next ?? (next = new NextCommand(this)); }
+        }
 
         private ICommand randomStart;
         public ICommand RandomStart
