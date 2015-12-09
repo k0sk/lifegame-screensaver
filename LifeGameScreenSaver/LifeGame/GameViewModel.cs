@@ -17,13 +17,14 @@ namespace LifeGameScreenSaver.LifeGame
 		private DrawingVisual cells = new DrawingVisual();
 		private byte[] states;
         private long countLives;
-        private int cellSize = Defaults.CELL_SIZE;
-        private int sizeX = Defaults.RES_X / Defaults.CELL_SIZE;
-        private int sizeY = Defaults.RES_Y / Defaults.CELL_SIZE;
 
         public GameViewModel() : base()
         {
             this.gameModel.Update += (sender) => this.Update(this.gameModel.Cells, this.countLives);
+
+            this.CellSize = Defaults.CELL_SIZE;
+            this.SizeX = Defaults.RES_X / Defaults.CELL_SIZE;
+            this.SizeY = Defaults.RES_Y / Defaults.CELL_SIZE;
 
 			this.AddVisualChild(this.grid);
 			this.AddLogicalChild(this.grid);
@@ -50,25 +51,27 @@ namespace LifeGameScreenSaver.LifeGame
 			this.drawGrid();
 		}
 
-        public void ChangeResSize(int width, int height)
+        public void ChangeRes(int width, int height)
         {
 
             for (int s = Defaults.CELL_SIZE; s <= width / 2; s += 8)
             {
                 if ((width % s == 0) && (height % s == 0))
                 {
-                    this.cellSize = s;
+                    this.CellSize = s;
                     break;
                 }
             }
 
-            this.sizeX = width / this.cellSize;
-            this.sizeY = height / this.cellSize;
+            this.SizeX = width / this.CellSize;
+            this.SizeY = height / this.CellSize;
 
-            this.gameModel.ChangeBoardSize(this.sizeX, this.sizeY);
+            this.gameModel.ChangeBoardSize(this.SizeX, this.SizeY);
         }
 
         public Boolean IsActive { get; set; }
+
+        public int CellSize { get; private set; }
         public int SizeX { get; private set; }
         public int SizeY { get; private set; }
 
@@ -89,7 +92,7 @@ namespace LifeGameScreenSaver.LifeGame
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			return new Size(this.sizeX * this.cellSize, this.sizeY * this.cellSize);
+			return new Size(this.SizeX * this.CellSize, this.SizeY * this.CellSize);
 		}
 
 		protected override void OnRender(DrawingContext drawingContext)
@@ -102,25 +105,25 @@ namespace LifeGameScreenSaver.LifeGame
 		{
 			using (DrawingContext dc = this.grid.RenderOpen())
 			{
-				Rect background = new Rect(0, 0, this.cellSize * this.sizeX, this.cellSize * this.sizeY);
+				Rect background = new Rect(0, 0, this.CellSize * this.SizeX, this.CellSize * this.SizeY);
 				dc.DrawRectangle(Brushes.Black, null, background);
 
 				Point start = new Point(0, 0);
 				Point end = new Point(0, background.Bottom);
-				for (int i = 0; i < this.sizeX; i++)
+				for (int i = 0; i < this.SizeX; i++)
 				{
 					dc.DrawLine(outline, start, end);
-					start.Offset(this.cellSize, 0);
-					end.Offset(this.cellSize, 0);
+					start.Offset(this.CellSize, 0);
+					end.Offset(this.CellSize, 0);
 				}
 
 				start = new Point(0, 0);
 				end = new Point(background.Right, 0);
-				for (int i = 0; i < this.sizeX; i++)
+				for (int i = 0; i < this.SizeX; i++)
 				{
 					dc.DrawLine(outline, start, end);
-					start.Offset(0, this.cellSize);
-					end.Offset(0, this.cellSize);
+					start.Offset(0, this.CellSize);
+					end.Offset(0, this.CellSize);
 				}
 			}
 		}
@@ -133,13 +136,13 @@ namespace LifeGameScreenSaver.LifeGame
 			{
 				int x = 0;
 				int y = 0;
-				Rect rect = new Rect(OUTLINE_WIDTH, OUTLINE_WIDTH, this.cellSize - OUTLINE_WIDTH, this.cellSize - OUTLINE_WIDTH);
+				Rect rect = new Rect(OUTLINE_WIDTH, OUTLINE_WIDTH, this.CellSize - OUTLINE_WIDTH, this.CellSize - OUTLINE_WIDTH);
 				
 				for (int i = 0; i < states.Length; i++)
 				{
-					x = (i % this.sizeX);
-					y = (i / this.sizeX);
-					rect.Location = new Point((x * this.cellSize) + OUTLINE_WIDTH, (y * this.cellSize) + OUTLINE_WIDTH);
+					x = (i % this.SizeX);
+					y = (i / this.SizeX);
+					rect.Location = new Point((x * this.CellSize) + OUTLINE_WIDTH, (y * this.CellSize) + OUTLINE_WIDTH);
 					
 					if (states[i] == 1)
 					{
@@ -156,10 +159,10 @@ namespace LifeGameScreenSaver.LifeGame
         }
 
         private ICommand next;
-                public ICommand Next
-                {
-                    get { return next ?? (next = new NextCommand(this)); }
-                }
+        public ICommand Next
+        {
+            get { return next ?? (next = new NextCommand(this)); }
+        }
 
         private ICommand randomStart;
         public ICommand RandomStart

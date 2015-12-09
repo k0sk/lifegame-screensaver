@@ -26,6 +26,7 @@ namespace LifeGameScreenSaver
         public MainWindow()
         {
             InitializeComponent();
+            this.WindowState = System.Windows.WindowState.Maximized;
 
             this.timer = new DispatcherTimer();
             this.timer.Interval = new TimeSpan(TimeSpan.TicksPerMillisecond * 100);
@@ -61,8 +62,11 @@ namespace LifeGameScreenSaver
         private void LifeGameView_MouseMove(object sender, MouseEventArgs e)
         {
             Point pt = e.GetPosition(this.gameViewModel);
-            int x = (int)((pt.X) / LifeGame.Defaults.CELL_SIZE);
-            int y = (int)((pt.Y) / LifeGame.Defaults.CELL_SIZE);
+
+            bool a = Double.IsInfinity((pt.X) / this.gameViewModel.CellSize);
+
+            int x = (int)((pt.X) / this.gameViewModel.CellSize);
+            int y = (int)((pt.Y) / this.gameViewModel.CellSize);
 
             this.gameViewModel.ToggleCell.Execute(new Tuple<int, int>(x, y));
         }

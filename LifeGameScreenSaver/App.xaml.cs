@@ -41,10 +41,6 @@ namespace LifeGameScreenSaver
             foreach (Screen s in Screen.AllScreens)
             {
                 MainWindow window = new MainWindow();
-                window.Left = s.Bounds.Left;
-                window.Top = s.Bounds.Top;
-                window.Width = s.Bounds.Width;
-                window.Height = s.Bounds.Height;
                 window.Show();
             }
         }

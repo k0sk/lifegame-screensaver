@@ -10,13 +10,14 @@ namespace LifeGameScreenSaver.LifeGame
         private byte[] current;
         private byte[] next;
         private long countLives = 0;
-        private int sizeX = Defaults.RES_X / Defaults.CELL_SIZE;
-        private int sizeY = Defaults.RES_Y / Defaults.CELL_SIZE;
 
 		public GameModel()
 		{
-            this.current = new byte[this.sizeX * this.sizeY];
-            this.next = new byte[this.sizeX * this.sizeY];
+            this.SizeX = Defaults.RES_X / Defaults.CELL_SIZE;
+            this.SizeY = Defaults.RES_Y / Defaults.CELL_SIZE;
+
+            this.current = new byte[this.SizeX * this.SizeY];
+            this.next = new byte[this.SizeX * this.SizeY];
 		}
 
         public byte[] Cells
@@ -24,9 +25,12 @@ namespace LifeGameScreenSaver.LifeGame
             get { return this.current; }
         }
 
+        public int SizeX { get; private set; }
+        public int SizeY { get; private set; }
+
 		public void Clear()
 		{
-            Array.Clear(this.current, 0, this.sizeX * this.sizeY);
+            Array.Clear(this.current, 0, this.SizeX * this.SizeY);
 
             if (this.Update != null) this.Update(this);
 		}
@@ -72,30 +76,30 @@ namespace LifeGameScreenSaver.LifeGame
 
 		public void ToggleCell(int x, int y)
 		{
-            int i = y * this.sizeX + x;
+            int i = y * this.SizeX + x;
             this.current[i] = (this.current[i] == 0) ? (byte)1 : (byte)0;
 
             if (this.Update != null) this.Update(this);
 		}
 
-        public void ChangeBoardSize(int sizeX, int sizeY)
+        public void ChangeBoardSize(int SizeX, int SizeY)
         {
-            this.sizeX = sizeX;
-            this.sizeY = sizeY;
+            this.SizeX = SizeX;
+            this.SizeY = SizeY;
 
-            this.current = new byte[this.sizeX * this.sizeY];
-            this.next = new byte[this.sizeX * this.sizeY];
+            this.current = new byte[this.SizeX * this.SizeY];
+            this.next = new byte[this.SizeX * this.SizeY];
         }
 
         private int countAliveNeighbours(int i)
 		{
-            int x = (i % this.sizeX);
-            int y = (i / this.sizeX);
+            int x = (i % this.SizeX);
+            int y = (i / this.SizeX);
 
-            int up = (y == 0) ? this.sizeX * (this.sizeY - 1) : -this.sizeX;
-            int down = (y == this.sizeY - 1) ? -this.sizeX * (this.sizeY - 1) : this.sizeX;
-            int left = (x == 0) ? (this.sizeX - 1) : -1;
-            int right = (x == this.sizeX - 1) ? (-this.sizeX + 1) : 1;
+            int up = (y == 0) ? this.SizeX * (this.SizeY - 1) : -this.SizeX;
+            int down = (y == this.SizeY - 1) ? -this.SizeX * (this.SizeY - 1) : this.SizeX;
+            int left = (x == 0) ? (this.SizeX - 1) : -1;
+            int right = (x == this.SizeX - 1) ? (-this.SizeX + 1) : 1;
 
             int count = this.current[i + up] + this.current[i + right + up] + this.current[i + right] + this.current[i + right + down]
                         + this.current[i + down] + this.current[i + left + down] + this.current[i + left] + this.current[i + left + up];

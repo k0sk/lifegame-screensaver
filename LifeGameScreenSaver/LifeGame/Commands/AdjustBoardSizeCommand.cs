@@ -26,7 +26,7 @@ namespace LifeGameScreenSaver.LifeGame
         public void Execute(object parameter)
         {
             Tuple<int, int> res = (Tuple<int, int>)parameter;
-            gameViewModel.ChangeResSize(res.Item1, res.Item2);
+            gameViewModel.ChangeRes(res.Item1, res.Item2);
         }
     }
 }
