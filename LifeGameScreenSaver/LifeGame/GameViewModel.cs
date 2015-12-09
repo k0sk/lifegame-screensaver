@@ -9,12 +9,13 @@ namespace LifeGameScreenSaver.LifeGame
 {
     public class GameViewModel : FrameworkElement
     {
-        public GameModel gameModel = new GameModel();
-		private const double OUTLINE_WIDTH = Defaults.OUTLINE_WIDTH;
-        private Pen outline = new Pen(Brushes.DimGray, OUTLINE_WIDTH);
+        public GameModel gameModel;
+		private const double OUTLINE_WIDTH = 0.5;
+        private Brush brush;
+        private Pen outline;
 		private DrawingVisual[] visuals;
-		private DrawingVisual grid = new DrawingVisual();
-		private DrawingVisual cells = new DrawingVisual();
+		private DrawingVisual grid;
+		private DrawingVisual cells;
 		private byte[] states;
 
         public Boolean IsActive { get; set; }
@@ -25,16 +26,21 @@ namespace LifeGameScreenSaver.LifeGame
 
         public GameViewModel() : base()
         {
+            this.gameModel = new GameModel();
             this.gameModel.Update += (sender) => this.Update(this.gameModel.Cells, this.gameModel.CountLives);
+
+            this.outline = new Pen(Brushes.DimGray, OUTLINE_WIDTH);
 
             this.CellSize = Defaults.CELL_SIZE;
             this.SizeX = Defaults.RES_X / Defaults.CELL_SIZE;
             this.SizeY = Defaults.RES_Y / Defaults.CELL_SIZE;
             this.CountLives = 0;
 
+            this.grid = new DrawingVisual();
+            this.cells = new DrawingVisual();
+
 			this.AddVisualChild(this.grid);
 			this.AddLogicalChild(this.grid);
-
 			this.AddVisualChild(this.cells);
 			this.AddLogicalChild(this.cells);
 
@@ -136,7 +142,8 @@ namespace LifeGameScreenSaver.LifeGame
 			{
 				int x = 0;
 				int y = 0;
-				Rect rect = new Rect(OUTLINE_WIDTH, OUTLINE_WIDTH, this.CellSize - OUTLINE_WIDTH, this.CellSize - OUTLINE_WIDTH);
+				Rect rect = new Rect(OUTLINE_WIDTH, OUTLINE_WIDTH,
+                                    this.CellSize - OUTLINE_WIDTH, this.CellSize - OUTLINE_WIDTH);
 				
                 for (int i = 0, l = states.Length; i < l; i++)
 				{
@@ -145,7 +152,8 @@ namespace LifeGameScreenSaver.LifeGame
                         x = (i % this.SizeX);
                         y = (i / this.SizeX);
 					
-                        rect.Location = new Point((x * this.CellSize) + OUTLINE_WIDTH, (y * this.CellSize) + OUTLINE_WIDTH);
+                        rect.Location = new Point((x * this.CellSize) + OUTLINE_WIDTH,
+                                                (y * this.CellSize) + OUTLINE_WIDTH);
 						dc.DrawRectangle(Brushes.Lime, null, rect);
 					}
 				}
