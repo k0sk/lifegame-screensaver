@@ -22,8 +22,8 @@ namespace LifeGameScreenSaver
     public partial class MainWindow : Window
     {
         private DispatcherTimer timer;
-        private uint countLives = 0;
-        private int countPause = 0;
+        private uint countLives;
+        private int countPause;
 
         public MainWindow()
         {
@@ -33,6 +33,9 @@ namespace LifeGameScreenSaver
             this.timer = new DispatcherTimer();
             this.timer.Interval = new TimeSpan(TimeSpan.TicksPerMillisecond * 100);
             this.timer.Tick += new EventHandler(this.times_Up);
+
+            this.countLives = 0;
+            this.countPause = 0;
 
             Loaded += (s, e) => {
                 this.gameViewModel.AdjustBoardSize.Execute(new Tuple<int, int>((int)this.Width, (int)this.Height));
@@ -89,9 +92,9 @@ namespace LifeGameScreenSaver
                     int x = (int)((currentMousePos.X) / this.gameViewModel.CellSize);
                     int y = (int)((currentMousePos.Y) / this.gameViewModel.CellSize);
 
-            this.gameViewModel.ToggleCell.Execute(new Tuple<int, int>(x, y));
-        }
-    }
+                    this.gameViewModel.ToggleCell.Execute(new Tuple<int, int>(x, y));
+                }       
+            }
             else
             {
                 this.lastMousePos = currentMousePos;

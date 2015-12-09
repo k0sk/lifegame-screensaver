@@ -17,6 +17,12 @@ namespace LifeGameScreenSaver.LifeGame
 		private DrawingVisual cells = new DrawingVisual();
 		private byte[] states;
 
+        public Boolean IsActive { get; set; }
+        public int CellSize { get; private set; }
+        public uint CountLives { get; private set; }
+        public int SizeX { get; private set; }
+        public int SizeY { get; private set; }
+
         public GameViewModel() : base()
         {
             this.gameModel.Update += (sender) => this.Update(this.gameModel.Cells, this.gameModel.CountLives);
@@ -68,13 +74,6 @@ namespace LifeGameScreenSaver.LifeGame
 
             this.gameModel.ChangeBoardSize(this.SizeX, this.SizeY);
         }
-
-        public Boolean IsActive { get; set; }
-
-        public int CellSize { get; private set; }
-        public uint CountLives { get; private set; }
-        public int SizeX { get; private set; }
-        public int SizeY { get; private set; }
 
 		protected override int VisualChildrenCount
 		{

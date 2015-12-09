@@ -10,6 +10,14 @@ namespace LifeGameScreenSaver.LifeGame
         private byte[] current;
         private byte[] next;
 
+        public uint CountLives { get; set; }
+        public int SizeX { get; private set; }
+        public int SizeY { get; private set; }
+        public byte[] Cells
+        {
+            get { return this.current; }
+        }
+
 		public GameModel()
 		{
             this.CountLives = 0;
@@ -19,15 +27,6 @@ namespace LifeGameScreenSaver.LifeGame
             this.current = new byte[this.SizeX * this.SizeY];
             this.next = new byte[this.SizeX * this.SizeY];
 		}
-
-        public byte[] Cells
-        {
-            get { return this.current; }
-        }
-
-        public uint CountLives { get; set; }
-        public int SizeX { get; private set; }
-        public int SizeY { get; private set; }
 
 		public void Clear()
 		{
@@ -102,8 +101,10 @@ namespace LifeGameScreenSaver.LifeGame
             int left = (x == 0) ? (this.SizeX - 1) : -1;
             int right = (x == this.SizeX - 1) ? (-this.SizeX + 1) : 1;
 
-            int count = this.current[i + up] + this.current[i + right + up] + this.current[i + right] + this.current[i + right + down]
-                        + this.current[i + down] + this.current[i + left + down] + this.current[i + left] + this.current[i + left + up];
+            int count = this.current[i + up] + this.current[i + right + up]
+                        + this.current[i + right] + this.current[i + right + down]
+                        + this.current[i + down] + this.current[i + left + down]
+                        + this.current[i + left] + this.current[i + left + up];
 
             return count;
         }
